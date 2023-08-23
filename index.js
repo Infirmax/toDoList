@@ -1,4 +1,4 @@
-const arrayOfElement = []
+
 
 function addTask() {
   // Retrieve new task and create the element
@@ -9,19 +9,17 @@ function addTask() {
   // Create button to delete that task
   let button = document.createElement("button")
   button.innerText = "Delete Task"
+  button.onclick = deleteTask
 
-  //Mini function 
-  const temp = arrayOfElement.length + 1;
-  button.onclick = () => deleteTask(temp)
-  arrayOfElement.push(task)
-  arrayOfElement.push(button)
+  // Create element and add
+  const div = document.createElement("div");
+  div.appendChild(task);
+  div.appendChild(button);
 
-  // Add elements to DOM
-  document.getElementById("tasks").appendChild(task)
-  document.getElementById("tasks").appendChild(button)
+  document.getElementById("tasks").appendChild(div);
 }
 
-function deleteTask(index){
-  arrayOfElement[index].remove()
-  arrayOfElement[index - 1].remove()
+function deleteTask(event) {
+  const element = event.srcElement;
+  element.parentNode.remove();
 }
