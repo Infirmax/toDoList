@@ -1,8 +1,11 @@
+window.onload = loadTasks
 
-
-function addTask() {
+// Make the task work with a passed in values and no passed in values
+function addTask(taskName) {
   // Retrieve new task and create the element
-  let taskName = document.getElementById('task').value
+  if(taskName == undefined)
+    taskName = document.getElementById('task').value
+
   let task = document.createElement("li")
   task.innerText = taskName + "\n"
 
@@ -22,4 +25,11 @@ function addTask() {
 function deleteTask(event) {
   const element = event.srcElement;
   element.parentNode.remove();
+}
+
+function loadTasks() {
+  let taskNames = localStorage.getItem("tasks").split("|");
+  for (let taskName of taskNames) {
+    addTask(taskName);
+  }
 }
