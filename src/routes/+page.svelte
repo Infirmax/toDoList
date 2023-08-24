@@ -3,38 +3,61 @@
 	let tasks = [];
 
 	function addTask() {
-		tasks.push(newTaskName);
-		tasks = tasks;
+			tasks.push(newTaskName);
+			saveTasks();
 	}
 
 	function deleteTask(event) {
-		event.srcElement.parentNode.remove();
+			const div = event.srcElement.parentNode;
+			tasks.splice(div.getAttribute("index"), 1);
+			saveTasks();
 	}
 
 	function saveTasks() {
-		localStorage.setItem("tasks", tasks.join("|"));
+			tasks = tasks;
+			localStorage.setItem("tasks", tasks.join("|"));
 	}
 
 	function loadTasks() {
-		tasks = localStorage.getItem("tasks").split("|");
+			tasks = localStorage.getItem("tasks").split("|");
 	}
 </script>
 
-<svelte:window on:load={loadTasks}/>
 <h1>To Do List</h1>
 
-<input type="text" id="task" bind:value={newTaskName} />
-<input type="button" value="Add Task" on:click={addTask} />
-
+<p>
+	<input type="text" id="task" bind:value={newTaskName} />
+	<input type="button" value="Add Task" on:click={addTask} />
+</p>
 <h1>List of Tasks</h1>
-<ul id="tasks">
-	{#each tasks as task}
-		<div>
-			<li>{task}</li>
-			<button on:click={deleteTask}>Delete me</button>
-		</div>
+<ul id="tasks" use:loadTasks>
+	{#each tasks as task, index}
+			<div {index}>
+					<p><li>{task}</li></p>
+					<button on:click={deleteTask}>Delete me</button>
+			</div>
 	{/each}
 </ul>
 
 <style>
+	h1, p {
+			text-align: center;
+	}
+
+	ul{
+		text-align: center;
+		border: 2px solid green;
+		padding: 10px;
+
+	}
+	button {
+			text-align: center;
+			
+	}
+	#tasks{
+		text-align: center;
+		color: rgb(163, 214, 163);
+	}
+
+
 </style>
